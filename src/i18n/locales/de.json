@@ -678,6 +678,16 @@
       "message": "Du hattest es offen gelassen, also haben wir es mit deinem letzten Satz beendet, {{time}}.",
       "view": "Ansehen",
       "dismiss": "Schließen"
+    },
+    "startMove": {
+      "title": "{{name}} vom {{day}} heute machen?",
+      "missed": "{{name}} war für {{day}} geplant und wurde verpasst. Auf heute verschoben, zählt es für diese Woche.",
+      "later": "{{name}} ist für {{day}} geplant. Auf heute verschoben, zählt es für diese Woche und {{day}} wird frei.",
+      "move": "Auf heute verschieben",
+      "extra": "Zusätzliches Workout",
+      "extraMissed": "Wird in deinem Verlauf gespeichert, zählt aber nicht für die Woche. {{day}} bleibt verpasst.",
+      "extraLater": "Wird in deinem Verlauf gespeichert, zählt aber nicht für die Woche. {{day}} bleibt geplant.",
+      "cancel": "Abbrechen"
     }
   },
   "history": {

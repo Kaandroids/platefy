@@ -678,6 +678,16 @@
       "message": "Açık bırakmıştın, bu yüzden son setinde ({{time}}) bitmiş olarak kaydettik.",
       "view": "Gör",
       "dismiss": "Kapat"
+    },
+    "startMove": {
+      "title": "{{day}} günkü {{name}} bugün yapılsın mı?",
+      "missed": "{{name}}, {{day}} için planlanmıştı ve kaçırıldı. Bugüne taşınırsa bu haftaya sayılır.",
+      "later": "{{name}}, {{day}} için planlı. Bugüne taşınırsa bu haftaya sayılır ve {{day}} boşalır.",
+      "move": "Bugüne taşı",
+      "extra": "Ekstra antrenman",
+      "extraMissed": "Geçmişine kaydedilir ama haftaya sayılmaz. {{day}} kaçırılmış olarak kalır.",
+      "extraLater": "Geçmişine kaydedilir ama haftaya sayılmaz. {{day}} planlı olarak kalır.",
+      "cancel": "Vazgeç"
     }
   },
   "history": {

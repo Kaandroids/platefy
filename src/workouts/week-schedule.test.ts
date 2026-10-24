@@ -6,6 +6,7 @@ import {
   moveTargets,
   nextWorkouts,
   originOf,
+  startMove,
   weekSchedule,
   type WorkoutMove,
 } from './week-schedule';
@@ -288,5 +289,38 @@ describe('canUndo', () => {
         { workoutId: 1, fromOn: '2026-10-19', toOn: '2026-10-22' },
       ]),
     ).toEqual([false, true]);
+  });
+});
+
+describe('startMove', () => {
+  const moveOf = (
+    workoutId: number,
+    moves: WorkoutMove[] = [],
+    finished: { workoutId: number; startedOn: string }[] = [],
+  ) => startMove(weekSchedule(SESSIONS, moves, finished, WEDNESDAY), workoutId, '2026-10-21');
+
+  it("moves a workout's earliest missed day to today", () => {
+    expect(moveOf(1)).toEqual({ fromOn: '2026-10-19', missed: true });
+    expect(moveOf(2)).toEqual({ fromOn: '2026-10-20', missed: true });
+  });
+
+  it('moves its next planned day to today when none was missed', () => {
+    expect(moveOf(1, [], [{ workoutId: 1, startedOn: '2026-10-19' }])).toEqual({
+      fromOn: '2026-10-22',
+      missed: false,
+    });
+    expect(moveOf(3)).toEqual({ fromOn: '2026-10-22', missed: false });
+  });
+
+  it('keeps the day a missed workout moved from', () => {
+    const moves: WorkoutMove[] = [{ workoutId: 2, fromOn: '2026-10-20', toOn: '2026-10-19' }];
+    expect(moveOf(2, moves)).toEqual({ fromOn: '2026-10-20', missed: true });
+  });
+
+  it('is null for a workout planned today, done, or not in the plan', () => {
+    const moves: WorkoutMove[] = [{ workoutId: 3, fromOn: '2026-10-24', toOn: '2026-10-21' }];
+    expect(moveOf(3, moves)).toBeNull();
+    expect(moveOf(2, [], [{ workoutId: 2, startedOn: '2026-10-20' }])).toBeNull();
+    expect(moveOf(9)).toBeNull();
   });
 });

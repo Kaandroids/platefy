@@ -221,6 +221,12 @@ describe('finishing', () => {
     expect(start().id).not.toBe(first.id);
   });
 
+  it('sends the planned day the workout counts for, only when it moves', () => {
+    const move = { from: '2026-10-19', to: '2026-10-21' };
+    expect(toLog(startSession('user-a', PUSH, {}, {}, NOW, move), NOW + 60_000).move).toEqual(move);
+    expect(toLog(start(), NOW + 60_000)).not.toHaveProperty('move');
+  });
+
   it('counts what was planned at the start, not the sets added on the way', () => {
     const session = addSet(start(), 0);
     expect(toLog(session, NOW + 60_000)).toMatchObject({ plannedExercises: 3, plannedSets: 4 });

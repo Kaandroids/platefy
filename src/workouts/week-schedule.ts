@@ -248,3 +248,31 @@ export function canUndo(schedule: WeekSchedule, workoutId: number, fromOn: strin
     )
   );
 }
+
+/**
+ * The day a workout started on `today` as YYYY-MM-DD could move from, so that it counts for that
+ * day (ADR 0028): its earliest missed day this week, else its next planned one. Null when it is
+ * planned today, or no day of it can move to today.
+ */
+export function startMove(
+  schedule: WeekSchedule,
+  workoutId: number,
+  today: string,
+): { fromOn: string; missed: boolean } | null {
+  const days = schedule.days.flatMap((day) =>
+    day.workouts
+      .filter(
+        (workout) =>
+          workout.session.workoutId === workoutId &&
+          (workout.status === 'missed' || (workout.status === 'planned' && day.date > today)),
+      )
+      .map((workout) => ({ fromOn: originOf(workout, day), missed: workout.status === 'missed' })),
+  );
+  const fits = (fromOn: string) =>
+    moveTargets(schedule, workoutId, fromOn, today).some((day) => day.date === today);
+  return (
+    days.find(({ missed, fromOn }) => missed && fits(fromOn)) ??
+    days.find(({ fromOn }) => fits(fromOn)) ??
+    null
+  );
+}

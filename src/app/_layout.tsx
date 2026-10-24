@@ -19,6 +19,7 @@ import { QueryProvider } from '@/providers/query-provider';
 import { SessionProvider, useSession } from '@/providers/session-provider';
 import { showRemindersInForeground } from '@/reminders/reminders';
 import { LeftOpenSaver } from '@/sessions/left-open';
+import { StartMoveSheet } from '@/sessions/start-move';
 import { REST_NOTIFICATION_ID, RestAlarm } from '@/sessions/rest-alarm';
 import { endSession } from '@/sessions/session';
 import { fonts, useTheme } from '@/theme';
@@ -107,6 +108,7 @@ function RootNavigator() {
       )}
       {/* Over every screen, as the app may open on any of them. */}
       {status === 'ready' ? <LeftOpenSaver /> : null}
+      {status === 'ready' ? <StartMoveSheet /> : null}
     </>
   );
 }

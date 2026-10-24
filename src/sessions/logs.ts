@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { RECORD_KINDS, type RecordKind } from '@/history/record-kinds';
 import { supabase } from '@/lib/supabase';
+import { MOVES_KEY } from '@/workouts/moves';
 
 import type { ExerciseBests, LastSets, toLog } from './session';
 
@@ -49,6 +50,11 @@ export function useLogWorkout() {
       }
       return data;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['workout-logs'] }),
+    // A log can bring a move with it.
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['workout-logs'] }),
+        queryClient.invalidateQueries({ queryKey: MOVES_KEY }),
+      ]),
   });
 }

@@ -678,6 +678,16 @@
       "message": "You left it open, so we saved it as finished at your last set, {{time}}.",
       "view": "View",
       "dismiss": "Dismiss"
+    },
+    "startMove": {
+      "title": "Do {{day}}'s {{name}} today?",
+      "missed": "{{name}} was planned for {{day}} and missed. Moved to today, it counts towards this week.",
+      "later": "{{name}} is planned for {{day}}. Moved to today, it counts towards this week and {{day}} is free.",
+      "move": "Move to today",
+      "extra": "Extra workout",
+      "extraMissed": "Saved to your history, not counted towards the week. {{day}} stays missed.",
+      "extraLater": "Saved to your history, not counted towards the week. {{day}} stays planned.",
+      "cancel": "Cancel"
     }
   },
   "history": {

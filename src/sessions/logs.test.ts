@@ -1,6 +1,8 @@
 import { supabase } from '@/lib/supabase';
 import { act, createTestQueryClient, renderHook } from '@/test/render';
 
+import { MOVES_KEY } from '@/workouts/moves';
+
 import { fetchBests, fetchLastSets, useLogWorkout } from './logs';
 
 jest.mock('@/lib/supabase', () => ({ supabase: { rpc: jest.fn() } }));
@@ -79,12 +81,14 @@ describe('useLogWorkout', () => {
       finishedAt: 'b',
       exercises: [],
     };
-    const { result } = await renderHook(() => useLogWorkout(), {
-      queryClient: createTestQueryClient(),
-    });
+    const queryClient = createTestQueryClient();
+    const invalidate = jest.spyOn(queryClient, 'invalidateQueries');
+    const { result } = await renderHook(() => useLogWorkout(), { queryClient });
     await act(async () => {
       await expect(result.current.mutateAsync(log)).resolves.toBe(12);
     });
     expect(supabase.rpc).toHaveBeenCalledWith('log_workout', { log });
+    // The log may bring a move, so the week's moves are loaded again too.
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: MOVES_KEY });
   });
 });
